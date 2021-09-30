@@ -6,12 +6,12 @@ import {
 export const paymentReducer = (state={},action) => {
     switch (action.type) {
         case FULL_PAYMENT:
-            const fullPayment = action.payload;
-            console.log(fullPayment);
-            return {...state,PaymentAmount:{fullPayment}}   
+            const fullpayment = action.payload.payment;
+            // console.log(fullPayment);
+            return {...state,...fullpayment}   
         case APPROXIMATE_PAYMENT:
-            const  approximatePayment = action.payload;
-            return {...state,payment:{...state.payment,PaymentAmount:{approximatePayment}}}    
+            const  PaymentAmount = action.payload;
+            return {...state,PaymentAmount}    
     
         default:
             return state;

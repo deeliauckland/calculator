@@ -17,14 +17,14 @@ export default function CalculatorScreen() {
     const submitHandler = (e) => {
         e.preventDefault()
         console.log(payment)
-        dispatch(fullPayment(payment))
+        
       }
 
-    //   useEffect(() => {
+      useEffect(() => {
         
-    //       dispatch(approximatePayment(payment));
+          dispatch(approximatePayment(payment));
         
-    //   }, [dispatch, payment]);
+      }, [dispatch, payment]);
 
     return (
         <Container>
@@ -76,7 +76,7 @@ export default function CalculatorScreen() {
                     <ListGroup.Item className="list-group-item list-group-item-success">
                         <Row>
                         <Col>Payment Amount:</Col>
-                        <Col>{Term}{LoanAmount}{InterestRate}{ResidualValue}</Col>
+                        <Col>{PaymentAmount}</Col>
                     </Row>
                     </ListGroup.Item>
                 

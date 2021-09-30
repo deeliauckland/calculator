@@ -10,11 +10,11 @@ const reducer = combineReducers({
 
 const initialState = {
     payment: {
-      Terms: {},
-      LoanAmount: {},
-      InterestRate: {},
-      ResidualValue:{},
-      PaymentAmount:{}
+      Terms: "",
+      LoanAmount: "",
+      InterestRate: "",
+      ResidualValue:"",
+      PaymentAmount:""
     },
     userLogin: { userInfo: {} },
   };
