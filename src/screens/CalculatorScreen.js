@@ -10,21 +10,28 @@ export default function CalculatorScreen() {
     const [LoanAmount,setLoanAmount]=useState(payment.LoanAmount);
     const [InterestRate,setInterestRate]=useState(payment.InterestRate);
     const [ResidualValue,setResidualValue]=useState(payment.Term);
-    const [PaymentAmount,setPaymentAmount]=useState(payment.Term);
+    const [PaymentAmount,setPaymentAmount]=useState(payment.PaymentAmount);
 
     const dispatch = useDispatch();
 
     const submitHandler = (e) => {
         e.preventDefault()
-        console.log(payment)
+       
         
       }
 
       useEffect(() => {
         
-          dispatch(approximatePayment(payment));
+          dispatch(approximatePayment({Term,LoanAmount,InterestRate,ResidualValue}));
         
-      }, [dispatch, payment]);
+      }, [dispatch,Term,LoanAmount,InterestRate,ResidualValue]);
+
+      useEffect(() => {
+        
+        dispatch(approximatePayment({Term,LoanAmount,InterestRate,ResidualValue}));
+      
+    }, [dispatch,Term,LoanAmount,InterestRate,ResidualValue,PaymentAmount]);
+      
 
     return (
         <Container>

@@ -11,6 +11,7 @@ export const paymentReducer = (state={},action) => {
             return {...state,...fullpayment}   
         case APPROXIMATE_PAYMENT:
             const  PaymentAmount = action.payload;
+            console.log(PaymentAmount);
             return {...state,PaymentAmount}    
     
         default:

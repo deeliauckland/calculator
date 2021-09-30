@@ -16,7 +16,7 @@ const initialState = {
       ResidualValue:"",
       PaymentAmount:""
     },
-    userLogin: { userInfo: {} },
+    userLogin: { },
   };
 
 const middlewares = [thunk];

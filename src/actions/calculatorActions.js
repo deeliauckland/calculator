@@ -20,10 +20,10 @@ export const fullPayment = (payment) => async(dispatch,getState) =>{
 
 export const approximatePayment = (payment) => async(dispatch,getState) =>{
     // const {data} = await axios.post('/api/approximatePayment',payment);
-    const{Terms,LoanAmount,InterestRate,ResidualValue}= payment
+    const{Term,LoanAmount,InterestRate,ResidualValue}= payment
     
-    let PaymentAmount=((LoanAmount*1+ResidualValue*1)/2*InterestRate/12*Terms*1+(LoanAmount*1-ResidualValue*1))/Terms
-
+    let PaymentAmount=((LoanAmount*1+ResidualValue*1)/2*InterestRate/12*Term*1+(LoanAmount*1-ResidualValue*1))/Term
+       
     
     dispatch({
         type: APPROXIMATE_PAYMENT,
