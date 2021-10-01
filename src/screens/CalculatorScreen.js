@@ -3,34 +3,47 @@ import {Form,Row,Col,Button,Container,ListGroup} from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
 import {fullPayment,approximatePayment} from '../actions/calculatorActions'
 
-export default function CalculatorScreen() {
-    const payment = useSelector(state => state.payment);
+export default function CalculatorScreen({ history }) {
+    
 
-    const [Term,setTerm]=useState(payment.Term);
-    const [LoanAmount,setLoanAmount]=useState(payment.LoanAmount);
-    const [InterestRate,setInterestRate]=useState(payment.InterestRate);
-    const [ResidualValue,setResidualValue]=useState(payment.Term);
-    const [PaymentAmount,setPaymentAmount]=useState(payment.PaymentAmount);
+   
+
+    const [Terms,setTerms]=useState("");
+    const [LoanAmount,setLoanAmount]=useState("");
+    const [InterestRate,setInterestRate]=useState("");
+    const [ResidualValue,setResidualValue]=useState("");
+    
 
     const dispatch = useDispatch();
+    const payment = useSelector(state => state.payment);
+    const {paymentInfo} = payment
+
+    const userLogin = useSelector((state) => state.userLogin)
+    const { loading, error, userInfo } = userLogin;
 
     const submitHandler = (e) => {
         e.preventDefault()
+        if(userInfo){
+            if(LoanAmount >1000000){
+                history.push('/thankyou');
+            }else{
+                dispatch(fullPayment(Terms,LoanAmount,InterestRate,ResidualValue));
+                history.push('/result');
+            }
+            
+        }else{
+             history.push('/login');
+        }
+        
        
-        
       }
+    
 
       useEffect(() => {
+       
+          dispatch(approximatePayment({Terms,LoanAmount,InterestRate,ResidualValue}));
         
-          dispatch(approximatePayment({Term,LoanAmount,InterestRate,ResidualValue}));
-        
-      }, [dispatch,Term,LoanAmount,InterestRate,ResidualValue]);
-
-      useEffect(() => {
-        
-        dispatch(approximatePayment({Term,LoanAmount,InterestRate,ResidualValue}));
-      
-    }, [dispatch,Term,LoanAmount,InterestRate,ResidualValue,PaymentAmount]);
+      }, [dispatch,Terms,LoanAmount,InterestRate,ResidualValue]);
       
 
     return (
@@ -38,12 +51,12 @@ export default function CalculatorScreen() {
             <Row className='justify-content-md-center'>
                 <Col  md={6}>
                     <Form variant="flush" onSubmit={submitHandler}>
-                        <Form.Group as={Row} className="mb-3" controlId="formTerm">
+                        <Form.Group as={Row} className="mb-3" controlId="formTerms">
                             <Form.Label column  md ={4}>
-                            {Term}Term (months):
+                            Term (months):
                             </Form.Label>
                             <Col  md={8}>
-                            <Form.Control as="input" type="number" placeholder="36" min="0" value={Term} required onChange = {(e)=>setTerm(e.target.value)}/>
+                            <Form.Control as="input" type="number" placeholder="36" min="0" value={Terms} required onChange = {(e)=>setTerms(e.target.value)}/>
                             </Col>
                         </Form.Group>
 
@@ -61,7 +74,7 @@ export default function CalculatorScreen() {
                             Interest Rate(%):
                             </Form.Label>
                             <Col md ={8}>
-                            <Form.Control as="input" type="number" placeholder="10" min="1" max="100" value={InterestRate} required onChange = {(e)=>setInterestRate(e.target.value)}/>
+                            <Form.Control as="input" type="number" placeholder="10" min="0" max="100" value={InterestRate} required onChange = {(e)=>setInterestRate(e.target.value)}/>
                             </Col>
                         </Form.Group>
 
@@ -79,11 +92,13 @@ export default function CalculatorScreen() {
 
                 <Col md={6}>
 
-                <ListGroup variant="dark">
-                    <ListGroup.Item className="list-group-item list-group-item-success">
+                <ListGroup >
+                    <ListGroup.Item variant="dark" >
                         <Row>
-                        <Col>Payment Amount:</Col>
-                        <Col>{PaymentAmount}</Col>
+                        <Col>Payment Amount($):</Col>
+                        {!(paymentInfo ==null) && !isNaN(paymentInfo.PaymentAmount)&&<Col>{paymentInfo.PaymentAmount}</Col>}
+                        
+                        
                     </Row>
                     </ListGroup.Item>
                 

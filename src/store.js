@@ -2,21 +2,28 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
 import { paymentReducer } from "./reducers/paymentReducer";
+import { userLoginReducer } from "./reducers/userReducer";
+
 
 
 const reducer = combineReducers({
-    payment:paymentReducer
+    payment:paymentReducer,
+    userLogin:userLoginReducer
 });
+
+const paymentInfoFromStorage = sessionStorage.getItem('paymentInfo')
+?JSON.parse(sessionStorage.getItem('paymentInfo'))
+:null;
+
+const userInfoFromStorage = sessionStorage.getItem("userInfo")
+  ? JSON.parse(localStorage.getItem("userInfo"))
+  : null;
 
 const initialState = {
     payment: {
-      Terms: "",
-      LoanAmount: "",
-      InterestRate: "",
-      ResidualValue:"",
-      PaymentAmount:""
+      paymentInfo:paymentInfoFromStorage
     },
-    userLogin: { },
+    userLogin: { userInfo: userInfoFromStorage },
   };
 
 const middlewares = [thunk];
