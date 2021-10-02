@@ -23,12 +23,12 @@ export default function CalculatorScreen({ history }) {
 
     const submitHandler = (e) => {
         e.preventDefault()
-        if(userInfo){
+        if(true){
             if(LoanAmount >1000000){
                 history.push('/thankyou');
             }else{
                 dispatch(fullPayment(Terms,LoanAmount,InterestRate,ResidualValue));
-                history.push('/result');
+                // history.push('/result');
             }
             
         }else{

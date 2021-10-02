@@ -15,12 +15,23 @@ export const fullPayment = (Terms,LoanAmount,InterestRate,ResidualValue) => asyn
     }
 
     // const { data } = await axios.post(
-    //   '/api/users/login',
-    //   {payment},
+    //   `localhost:8080/backend/fullPayment?pv=${LoanAmount}&fv=${ResidualValue}&rate=${InterestRate}&term=${Terms}`,
+      
     //   config
     // )
 
-    const data = {Terms,LoanAmount,InterestRate,ResidualValue,PaymentAmount:1984}
+    const {data} = await axios.post(
+      'localhost:8080/backend/fullPayment',
+      {
+        "pv":"600",
+         "fv":"0",
+         "rate":"0.12",
+         "term":"6"
+     },
+      config
+    )
+
+    // const data = {Terms,LoanAmount,InterestRate,ResidualValue,PaymentAmount:1984}
     dispatch({ type: FULL_PAYMENT_SUCCESS, payload: data })
     sessionStorage.setItem('paymentInfo', JSON.stringify(data))
   } catch (error) {
@@ -32,7 +43,7 @@ export const fullPayment = (Terms,LoanAmount,InterestRate,ResidualValue) => asyn
           : error.message,
     });
   }
-    // const {data} = await axios.post('/api/fullpayment',payment);
+
 
     
 }
@@ -40,10 +51,17 @@ export const fullPayment = (Terms,LoanAmount,InterestRate,ResidualValue) => asyn
 export const approximatePayment = (payment) => async(dispatch,getState) =>{
     // const {data} = await axios.post('/api/approximatePayment',payment);
     const{Terms,LoanAmount,InterestRate,ResidualValue}= payment
+     
+    let f_Terms = parseFloat(Terms)
+    let f_LoanAmount = parseFloat(LoanAmount)
+    let f_InterestRate = parseFloat(InterestRate)/100
+    let f_ResidualValue = parseFloat(ResidualValue)
+
     
-    let PaymentAmount=(((LoanAmount*1+ResidualValue*1)/2*InterestRate/12*Terms*1+(LoanAmount*1-ResidualValue*1))/Terms)
-       
-    const approximateData = {Terms,LoanAmount,InterestRate,ResidualValue,PaymentAmount:PaymentAmount.toFixed(2)}
+    let f_PaymentAmount = ((f_LoanAmount+f_ResidualValue)/2*f_InterestRate/12*f_Terms + (f_LoanAmount-f_ResidualValue))/f_Terms
+
+    
+    const approximateData = {Terms,LoanAmount,InterestRate,ResidualValue,PaymentAmount:f_PaymentAmount.toFixed(2)}
     dispatch({
         type: APPROXIMATE_PAYMENT,
         payload:approximateData

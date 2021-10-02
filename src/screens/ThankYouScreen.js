@@ -18,11 +18,6 @@ export default function ThankYouScreen({history}) {
             <hr/>
             
             <p class="lead">
-               {/* <LinkContainer to="/"> 
-                <Nav.Link className="btn btn-primary btn-sm" role="button">
-                Continue to Calculator
-                </Nav.Link>
-               </LinkContainer> */}
                 <button className="btn btn-primary btn-sm" onClick={continueHandler} role="button">Continue to Calculator</button>
             </p>
         </div>
