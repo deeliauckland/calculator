@@ -1,0 +1,1 @@
+export const RESULT_SUCCESS = 'RESULT_SUCCESS'

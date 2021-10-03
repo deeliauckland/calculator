@@ -3,12 +3,12 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
 import { paymentReducer } from "./reducers/paymentReducer";
 import { userLoginReducer } from "./reducers/userReducer";
-
-
+import { resultReducer } from "./reducers/resultReducer";
 
 const reducer = combineReducers({
     payment:paymentReducer,
-    userLogin:userLoginReducer
+    userLogin:userLoginReducer,
+    result:resultReducer
 });
 
 const paymentInfoFromStorage = sessionStorage.getItem('paymentInfo')
@@ -19,11 +19,14 @@ const userInfoFromStorage = sessionStorage.getItem("userInfo")
   ? JSON.parse(localStorage.getItem("userInfo"))
   : null;
 
+  
+
 const initialState = {
     payment: {
       paymentInfo:paymentInfoFromStorage
     },
     userLogin: { userInfo: userInfoFromStorage },
+    result:{resultInfo:{}}
   };
 
 const middlewares = [thunk];

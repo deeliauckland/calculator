@@ -29,9 +29,12 @@ export const fullPayment = (Terms,LoanAmount,InterestRate,ResidualValue) => asyn
       config
     )
 
-    const result = {Terms,LoanAmount,InterestRate,ResidualValue,PaymentAmount:data}
-    dispatch({ type: FULL_PAYMENT_SUCCESS, payload: result })
-    sessionStorage.setItem('paymentInfo', JSON.stringify(result))
+    const fullResult = {Terms,LoanAmount,InterestRate,ResidualValue,PaymentAmount:data}
+    
+
+    dispatch({ type: FULL_PAYMENT_SUCCESS, payload: fullResult })
+    sessionStorage.setItem('paymentInfo', JSON.stringify(fullResult))
+    
 
   } catch (error) {
 

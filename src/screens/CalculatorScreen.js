@@ -1,14 +1,18 @@
 import React,{ useState,useEffect } from 'react'
 import {Form,Row,Col,Button,Container,ListGroup} from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
 import {fullPayment,approximatePayment} from '../actions/calculatorActions'
 
-export default function CalculatorScreen({ history }) {
+export default function CalculatorScreen() {
 
     const [Terms,setTerms]=useState("");
     const [LoanAmount,setLoanAmount]=useState("");
     const [InterestRate,setInterestRate]=useState("");
     const [ResidualValue,setResidualValue]=useState("");
+
+    const history = useHistory() ;
+
 
     const dispatch = useDispatch();
 
@@ -21,7 +25,7 @@ export default function CalculatorScreen({ history }) {
     const submitHandler = (e) => {
         e.preventDefault()
         if(userInfo){
-            console.log(LoanAmount)
+            
             if(LoanAmount >1000000){
                 history.push('/thankyou');
             }else{

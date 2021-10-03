@@ -1,31 +1,30 @@
-import React,{useEffect,useState } from 'react'
-import FormContainer from '../components/FormContainer';
+import React,{useEffect} from 'react'
 import { Row, Col, ListGroup} from "react-bootstrap";
+import { useDispatch, useSelector } from 'react-redux';
+import FormContainer from '../components/FormContainer';
+import {getResult} from '../actions/resultAction'
+import Loader from '../components/Loader';
 
-export default function ResultScreen() {
 
-    const paymentInfo = JSON.parse(sessionStorage.getItem('paymentInfo'));
-    const {Terms,LoanAmount,InterestRate,ResidualValue,PaymentAmount} = paymentInfo
+export default function ResultScreen({history}) {
 
-    const userInfo = sessionStorage.getItem('userInfo');
-    // const [Terms, setpaymentInfo]=useState('');
+    const result = useSelector(state => state.result);
+    const {resultInfo,loading} = result
+    const dispatch = useDispatch();
+   
+    useEffect(()=>{
+        
+        const timer = setTimeout(() => {
+            dispatch(getResult());
+            console.log("dispatch")
+          }, 400);
+          return () => clearTimeout(timer);
 
-    // const [paymentInfo, setpaymentInfo] = useState(JSON.parse(sessionStorage.getItem('paymentInfo')));
-    // const {Terms,LoanAmount,InterestRate,ResidualValue,PaymentAmount} = paymentInfo;
-
-    // useEffect(() => {
-    //     setpaymentInfo(JSON.parse(sessionStorage.getItem('paymentInfo'))
-    //   });
-    
-    
-    // useEffect(()=>{
-
-    //     setpaymentInfo(JSON.parse(sessionStorage.getItem('paymentInfo')));
-     
-    //  },[]);
+     },[dispatch]);
 
     return (
-        <FormContainer>
+            <FormContainer>
+                 { loading && <Loader /> }
             <ListGroup variant="flush">
                 <ListGroup.Item>
                     <h5>Calculation Summary</h5>
@@ -34,46 +33,46 @@ export default function ResultScreen() {
                 <ListGroup.Item>
                     <Row>
                     <Col>User:</Col>
-                    <Col>{userInfo}</Col>
+                    <Col>{resultInfo.userInfo}</Col>
                     </Row>
                 </ListGroup.Item>
 
                 <ListGroup.Item>
                     <Row>
-                    <Col>Terms</Col>
-                    <Col>${Terms}</Col>
-                    {/* <Col>${paymentInfo.Terms}</Col> */}
-                    </Row>
-                </ListGroup.Item>
-
-                {/* <ListGroup.Item>
-                    <Row>
-                    <Col>LoanAmount</Col>
-                    <Col>${LoanAmount}</Col>
+                    <Col>Terms(months)</Col>
+                  
+                    <Col>{resultInfo.Terms}</Col>
                     </Row>
                 </ListGroup.Item>
 
                 <ListGroup.Item>
                     <Row>
-                    <Col>InterestRate</Col>
-                    <Col>${InterestRate}</Col>
+                    <Col>LoanAmount($)</Col>
+                    <Col>{resultInfo.LoanAmount}</Col>
                     </Row>
                 </ListGroup.Item>
 
                 <ListGroup.Item>
                     <Row>
-                    <Col>ResidualValue</Col>
-                    <Col>${ResidualValue}</Col>
+                    <Col>InterestRate(%)</Col>
+                    <Col>{resultInfo.InterestRate}</Col>
+                    </Row>
+                </ListGroup.Item>
+
+                <ListGroup.Item>
+                    <Row>
+                    <Col>ResidualValue($)</Col>
+                    <Col>{resultInfo.ResidualValue}</Col>
                     </Row>
                 </ListGroup.Item>
 
                 <ListGroup.Item variant="dark">
                     <Row>
                     <Col><h4>Payment Amount</h4></Col>
-                    <Col><h4>${PaymentAmount}</h4></Col>
+                    <Col><h4>${resultInfo.PaymentAmount}</h4></Col>
                     </Row>
-                </ListGroup.Item> */}
+                </ListGroup.Item>
             </ListGroup>
-        </FormContainer>
+        </FormContainer>  
     ) 
 }
