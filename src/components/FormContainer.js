@@ -1,6 +1,7 @@
 import React from 'react'
 import { Container, Row, Col } from 'react-bootstrap';
 
+//use to contain forms
 export default function FormContainer({ children }) {
   return (
     <Container>

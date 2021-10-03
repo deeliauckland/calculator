@@ -1,9 +1,9 @@
-import {FULL_PAYMENT,
+import {
     APPROXIMATE_PAYMENT,
     FULL_PAYMENT_REQUEST,
     FULL_PAYMENT_SUCCESS,
-    FULL_PAYMENT_FAIL} from '../constants/calculatorConstants'
-
+    FULL_PAYMENT_FAIL
+} from '../constants/calculatorConstants'
 
 export const paymentReducer = (state={},action) => {
     switch (action.type) {

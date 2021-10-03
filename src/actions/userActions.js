@@ -2,11 +2,13 @@ import {
     USER_LOGIN_REQUEST,
     USER_LOGIN_SUCCESS,
     USER_LOGIN_FAIL,
-    USER_LOGOUT
 } from '../constants/userConstants'
+import axios from 'axios'
 
-export const login = (email, password) => async (dispatch) => {
+//login action check the username and password from backend
+export const login = (username, password) => async (dispatch) => {
     try {
+
       dispatch({ type: USER_LOGIN_REQUEST })
   
       const config = {
@@ -15,24 +17,23 @@ export const login = (email, password) => async (dispatch) => {
         }
       }
   
-    //   const { data } = await axios.post(
-    //     '/api/users/login',
-    //     { email, password },
-    //     config
-    //   )
+      const result = await axios.post(
+        'http://localhost:8080/backend/login',
+        {
+          "username":username,
+           "password":password,   
+       },
+        config
+      )
 
-      const data ={
-          email: email,
-          name:"dee",
-          _id: "523",
-          token: "123"
-
+      if (result){
+        dispatch({ type: USER_LOGIN_SUCCESS, payload: username })
+        sessionStorage.setItem('userInfo', username)
       }
-  
-      dispatch({ type: USER_LOGIN_SUCCESS, payload: data })
-  
-      sessionStorage.setItem('userInfo', JSON.stringify(data))
+
+
     } catch (error) {
+
       dispatch({
         type: USER_LOGIN_FAIL,
         payload:
@@ -40,5 +41,6 @@ export const login = (email, password) => async (dispatch) => {
             ? error.response.data.message
             : error.message,
       });
+      
     }
   }

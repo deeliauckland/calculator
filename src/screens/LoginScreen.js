@@ -8,14 +8,12 @@ import Loader from '../components/Loader';
 import { login } from '../actions/userActions';
 
 export default function LoginScreen({ history, location }) {
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
     const dispatch = useDispatch();
     const userLogin = useSelector((state) => state.userLogin)
     const { loading, error, userInfo } = userLogin;
-
-    
 
     useEffect(() => {
         if (!userInfo) {
@@ -28,7 +26,7 @@ export default function LoginScreen({ history, location }) {
     
       const submitHandler = (e) => {
         e.preventDefault()
-        dispatch(login(email, password));
+        dispatch(login(username, password));
       }
 
     return (
@@ -37,13 +35,14 @@ export default function LoginScreen({ history, location }) {
             { error && <Message variant="danger">{error}</Message> }
             { loading && <Loader /> }
             <Form onSubmit={submitHandler}>
+                
                 <Form.Group controlId='email'>
-                <Form.Label>Email Address</Form.Label>
+                <Form.Label>Username</Form.Label>
                 <Form.Control
-                    type="email"
-                    placeholder="Enter email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    type="text"
+                    placeholder="Enter username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
                 ></Form.Control>
                 </Form.Group>
 

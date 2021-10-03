@@ -4,39 +4,34 @@ import { useDispatch, useSelector } from 'react-redux';
 import {fullPayment,approximatePayment} from '../actions/calculatorActions'
 
 export default function CalculatorScreen({ history }) {
-    
-
-   
 
     const [Terms,setTerms]=useState("");
     const [LoanAmount,setLoanAmount]=useState("");
     const [InterestRate,setInterestRate]=useState("");
     const [ResidualValue,setResidualValue]=useState("");
-    
 
     const dispatch = useDispatch();
+
     const payment = useSelector(state => state.payment);
     const {paymentInfo} = payment
 
     const userLogin = useSelector((state) => state.userLogin)
-    const { loading, error, userInfo } = userLogin;
+    const { userInfo } = userLogin;
 
     const submitHandler = (e) => {
         e.preventDefault()
-        if(true){
+        if(userInfo){
+            console.log(LoanAmount)
             if(LoanAmount >1000000){
                 history.push('/thankyou');
             }else{
                 dispatch(fullPayment(Terms,LoanAmount,InterestRate,ResidualValue));
-                // history.push('/result');
-            }
-            
+                history.push('/result');
+            } 
         }else{
-             history.push('/login');
+                 history.push('/login');
         }
-        
-       
-      }
+    }
     
 
       useEffect(() => {

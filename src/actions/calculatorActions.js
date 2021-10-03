@@ -1,7 +1,11 @@
 
 import axios from 'axios'
-import {FULL_PAYMENT,APPROXIMATE_PAYMENT,FULL_PAYMENT_REQUEST,FULL_PAYMENT_SUCCESS,FULL_PAYMENT_FAIL} from '../constants/calculatorConstants'
-
+import {APPROXIMATE_PAYMENT,
+        FULL_PAYMENT_REQUEST,
+        FULL_PAYMENT_SUCCESS,
+        FULL_PAYMENT_FAIL} from '../constants/calculatorConstants'
+        
+//send data to backend to calculate full payment
 export const fullPayment = (Terms,LoanAmount,InterestRate,ResidualValue) => async(dispatch,getState) =>{
 
   try {
@@ -14,27 +18,23 @@ export const fullPayment = (Terms,LoanAmount,InterestRate,ResidualValue) => asyn
       }
     }
 
-    // const { data } = await axios.post(
-    //   `localhost:8080/backend/fullPayment?pv=${LoanAmount}&fv=${ResidualValue}&rate=${InterestRate}&term=${Terms}`,
-      
-    //   config
-    // )
-
     const {data} = await axios.post(
-      'localhost:8080/backend/fullPayment',
+      'http://localhost:8080/backend/fullPayment',
       {
-        "pv":"600",
-         "fv":"0",
-         "rate":"0.12",
-         "term":"6"
+        "pv":LoanAmount,
+         "fv":ResidualValue,
+         "rate":InterestRate,
+         "term":Terms
      },
       config
     )
 
-    // const data = {Terms,LoanAmount,InterestRate,ResidualValue,PaymentAmount:1984}
-    dispatch({ type: FULL_PAYMENT_SUCCESS, payload: data })
-    sessionStorage.setItem('paymentInfo', JSON.stringify(data))
+    const result = {Terms,LoanAmount,InterestRate,ResidualValue,PaymentAmount:data}
+    dispatch({ type: FULL_PAYMENT_SUCCESS, payload: result })
+    sessionStorage.setItem('paymentInfo', JSON.stringify(result))
+
   } catch (error) {
+
     dispatch({
       type: FULL_PAYMENT_FAIL,
       payload:
@@ -42,14 +42,13 @@ export const fullPayment = (Terms,LoanAmount,InterestRate,ResidualValue) => asyn
           ? error.response.data.message
           : error.message,
     });
-  }
 
-
-    
+  }    
 }
 
+//calculate approximatePayment in frontend
 export const approximatePayment = (payment) => async(dispatch,getState) =>{
-    // const {data} = await axios.post('/api/approximatePayment',payment);
+
     const{Terms,LoanAmount,InterestRate,ResidualValue}= payment
      
     let f_Terms = parseFloat(Terms)
@@ -57,14 +56,11 @@ export const approximatePayment = (payment) => async(dispatch,getState) =>{
     let f_InterestRate = parseFloat(InterestRate)/100
     let f_ResidualValue = parseFloat(ResidualValue)
 
-    
     let f_PaymentAmount = ((f_LoanAmount+f_ResidualValue)/2*f_InterestRate/12*f_Terms + (f_LoanAmount-f_ResidualValue))/f_Terms
 
-    
     const approximateData = {Terms,LoanAmount,InterestRate,ResidualValue,PaymentAmount:f_PaymentAmount.toFixed(2)}
     dispatch({
         type: APPROXIMATE_PAYMENT,
         payload:approximateData
-        // payload:getState()
       })
 }

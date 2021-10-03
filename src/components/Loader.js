@@ -1,6 +1,7 @@
 import React from "react";
 import { Spinner } from "react-bootstrap";
 
+//show loading animation on the page
 export default function Loader() {
   return (
     <Spinner

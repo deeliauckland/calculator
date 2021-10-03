@@ -11,7 +11,7 @@ import ThankYouScreen from './screens/ThankYouScreen';
 
 function App() {
   return (
-    <Router>
+    <Router >
     <Header />
     <main className="App">
       <Container>

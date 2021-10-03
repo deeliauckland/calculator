@@ -1,15 +1,28 @@
-import React from 'react'
+import React,{useEffect,useState } from 'react'
 import FormContainer from '../components/FormContainer';
-import { Row, Col, ListGroup, Image, Button, Card } from "react-bootstrap";
+import { Row, Col, ListGroup} from "react-bootstrap";
 
 export default function ResultScreen() {
 
-    
     const paymentInfo = JSON.parse(sessionStorage.getItem('paymentInfo'));
     const {Terms,LoanAmount,InterestRate,ResidualValue,PaymentAmount} = paymentInfo
 
-    const userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
-    const {name,email} = userInfo
+    const userInfo = sessionStorage.getItem('userInfo');
+    // const [Terms, setpaymentInfo]=useState('');
+
+    // const [paymentInfo, setpaymentInfo] = useState(JSON.parse(sessionStorage.getItem('paymentInfo')));
+    // const {Terms,LoanAmount,InterestRate,ResidualValue,PaymentAmount} = paymentInfo;
+
+    // useEffect(() => {
+    //     setpaymentInfo(JSON.parse(sessionStorage.getItem('paymentInfo'))
+    //   });
+    
+    
+    // useEffect(()=>{
+
+    //     setpaymentInfo(JSON.parse(sessionStorage.getItem('paymentInfo')));
+     
+    //  },[]);
 
     return (
         <FormContainer>
@@ -21,7 +34,7 @@ export default function ResultScreen() {
                 <ListGroup.Item>
                     <Row>
                     <Col>User:</Col>
-                    <Col>{name}</Col>
+                    <Col>{userInfo}</Col>
                     </Row>
                 </ListGroup.Item>
 
@@ -29,10 +42,11 @@ export default function ResultScreen() {
                     <Row>
                     <Col>Terms</Col>
                     <Col>${Terms}</Col>
+                    {/* <Col>${paymentInfo.Terms}</Col> */}
                     </Row>
                 </ListGroup.Item>
 
-                <ListGroup.Item>
+                {/* <ListGroup.Item>
                     <Row>
                     <Col>LoanAmount</Col>
                     <Col>${LoanAmount}</Col>
@@ -58,15 +72,7 @@ export default function ResultScreen() {
                     <Col><h4>Payment Amount</h4></Col>
                     <Col><h4>${PaymentAmount}</h4></Col>
                     </Row>
-                </ListGroup.Item>
-
-
-
-
-
-
-
-
+                </ListGroup.Item> */}
             </ListGroup>
         </FormContainer>
     ) 
